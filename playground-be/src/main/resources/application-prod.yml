@@ -1,0 +1,14 @@
+server:
+  port: 8084
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3307/playground?serverTimeZone=Asia/Seoul
+    username: sumin
+    password: ENC(XcS0/NIaM+sz2geHTQ4imQ==)
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 200MB
