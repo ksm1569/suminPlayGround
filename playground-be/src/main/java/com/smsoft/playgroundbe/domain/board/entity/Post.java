@@ -1,5 +1,6 @@
 package com.smsoft.playgroundbe.domain.board.entity;
 
+import com.smsoft.playgroundbe.domain.board.dto.PostDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,4 +27,10 @@ public class Post {
 
     @OneToMany(mappedBy = "post")
     private List<Comment> comments;
+
+    public void patch(PostDTO.Request postDTO) {
+        this.authorId = postDTO.getAuthorId();
+        this.title = postDTO.getTitle();
+        this.content = postDTO.getContent();
+    }
 }

@@ -1,5 +1,6 @@
 package com.smsoft.playgroundbe.domain.board.repository;
 
+import com.smsoft.playgroundbe.domain.board.dto.BoardDTO;
 import com.smsoft.playgroundbe.domain.board.entity.Board;
 import com.smsoft.playgroundbe.domain.board.entity.Category;
 import org.junit.jupiter.api.DisplayName;
@@ -69,6 +70,36 @@ class BoardRepositoryTest {
         boardRepository.saveAll(List.of(board1, board2, board3));
         List<Board> savedBoards = boardRepository.findAllByCategoryId(savedCategory.getId());
         assertEquals(3, savedBoards.size());
+    }
+
+    @Test
+    @DisplayName("게시판 정보 수정 테스트")
+    public void updateBoardInfo() {
+        Category category = Category.builder()
+                .name("스포츠")
+                .build();
+
+        Category savedCategory = categoryRepository.save(category);
+
+        Board board = Board.builder()
+                .title("축구")
+                .category(savedCategory)
+                .build();
+
+        // 변경전
+        Board savedBoard = boardRepository.save(board);
+        assertThat(savedBoard.getTitle()).isEqualTo("축구");
+
+        // 변경 후
+        BoardDTO.Request requestDTO = new BoardDTO.Request();
+        requestDTO.setTitle("야구");
+
+        savedBoard.patch(requestDTO);
+        Board updatedBoard = boardRepository.save(savedBoard);
+
+        Optional<Board> foundBoard = boardRepository.findById(updatedBoard.getId());
+        assertThat(foundBoard).isPresent();
+        assertThat(foundBoard.get().getTitle()).isEqualTo("야구");
     }
 
     @Test

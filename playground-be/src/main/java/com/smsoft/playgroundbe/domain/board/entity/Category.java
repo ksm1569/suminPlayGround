@@ -1,5 +1,6 @@
 package com.smsoft.playgroundbe.domain.board.entity;
 
+import com.smsoft.playgroundbe.domain.board.dto.CategoryDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,4 +22,8 @@ public class Category {
 
     @OneToMany(mappedBy = "category")
     private List<Board> boards = new ArrayList<>();
+
+    public void patch(CategoryDTO.Request requestDTO) {
+        this.name = requestDTO.getName();
+    }
 }
