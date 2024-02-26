@@ -1,5 +1,6 @@
 package com.smsoft.playgroundbe.domain.board.entity;
 
+import com.smsoft.playgroundbe.domain.board.dto.CommentDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,4 +30,9 @@ public class Comment {
 
     @OneToMany(mappedBy = "parentComment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> replies = new ArrayList<>();
+
+    public void patch(CommentDTO.Request commentDTO) {
+        this.authorId = commentDTO.getAuthorId();
+        this.content = commentDTO.getContent();
+    }
 }

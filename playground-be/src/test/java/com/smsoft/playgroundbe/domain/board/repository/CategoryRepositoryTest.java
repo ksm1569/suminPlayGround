@@ -2,6 +2,7 @@ package com.smsoft.playgroundbe.domain.board.repository;
 
 import com.smsoft.playgroundbe.domain.board.dto.CategoryDTO;
 import com.smsoft.playgroundbe.domain.board.entity.Category;
+import jakarta.persistence.TableGenerator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,5 +65,24 @@ class CategoryRepositoryTest {
         Optional<Category> foundCategory = categoryRepository.findById(savedCategory.getId());
         assertThat(foundCategory).isPresent();
         assertThat(foundCategory.get().getName()).isEqualTo("프로그래밍");
+    }
+
+    @Test
+    @DisplayName("카테고리 삭제 테스트")
+    public void deleteCategory() {
+        Category category = Category.builder()
+                .name("스포츠")
+                .build();
+
+        Category savedCategory = categoryRepository.save(category);
+        Long savedCategoryId = savedCategory.getId();
+
+        boolean existsed = categoryRepository.existsById(savedCategoryId);
+        assertThat(existsed).isTrue();
+
+        categoryRepository.deleteById(savedCategoryId);
+        existsed = categoryRepository.existsById(savedCategoryId);
+
+        assertThat(existsed).isFalse();
     }
 }

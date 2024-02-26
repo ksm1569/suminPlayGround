@@ -1,5 +1,7 @@
 package com.smsoft.playgroundbe.domain.board.entity;
 
+import com.smsoft.playgroundbe.domain.board.constant.ReactionType;
+import com.smsoft.playgroundbe.domain.board.dto.ReactionDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,5 +23,11 @@ public class Reaction {
     @ManyToOne
     private Comment comment;
 
-    private boolean isLike;
+    @Enumerated(EnumType.STRING)
+    private ReactionType reactionType;
+
+    public void patch(ReactionDTO.Request reactionDTO) {
+        this.userId = reactionDTO.getUserId();
+        this.reactionType = reactionDTO.getReactionType();
+    }
 }
