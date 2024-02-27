@@ -1,3 +1,7 @@
+jasypt:
+  encryptor:
+    password: dummy
+
 server:
   port: 8084
 
