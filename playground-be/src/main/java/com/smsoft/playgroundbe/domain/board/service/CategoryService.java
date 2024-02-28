@@ -13,11 +13,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-@Transactional
 @Service
 public class CategoryService {
     private final CategoryRepository categoryRepository;
 
+    @Transactional
     public CategoryDTO.Response createCategory(CategoryDTO.Request categoryDTO) {
         Category category = Category.builder()
                 .name(categoryDTO.getName())
@@ -28,6 +28,7 @@ public class CategoryService {
         return CategoryDTO.Response.of(savedCategory);
     }
 
+    @Transactional
     public CategoryDTO.Response updateCategory(Long categoryId, CategoryDTO.Request categoryDTO) {
         Category findCategory = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new EntityNotFoundException("Category not found with id: " + categoryId));
@@ -38,6 +39,7 @@ public class CategoryService {
         return CategoryDTO.Response.of(savedCategory);
     }
 
+    @Transactional
     public void deleteCategory(Long categoryId) {
         Category findCategory = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new EntityNotFoundException("Category not found with id: " + categoryId));
@@ -45,6 +47,7 @@ public class CategoryService {
         categoryRepository.delete(findCategory);
     }
 
+    @Transactional(readOnly = true)
     public List<CategoryDTO.Response> getAllCategories() {
         return categoryRepository.findAll()
                 .stream()

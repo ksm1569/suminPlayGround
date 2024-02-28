@@ -1,8 +1,8 @@
 package com.smsoft.playgroundbe.domain.board.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.smsoft.playgroundbe.domain.board.entity.Board;
+import com.smsoft.playgroundbe.domain.board.entity.Category;
+import lombok.*;
 
 public class BoardDTO {
 
@@ -14,10 +14,18 @@ public class BoardDTO {
     }
 
     @Getter @Setter
-    @NoArgsConstructor
+    @Builder @NoArgsConstructor @AllArgsConstructor
     public static class Response {
         private Long id;
         private String title;
         private String categoryName;
+
+        public static Response of(Board board) {
+            return Response.builder()
+                    .id(board.getId())
+                    .title(board.getTitle())
+                    .categoryName(board.getCategory().getName())
+                    .build();
+        }
     }
 }

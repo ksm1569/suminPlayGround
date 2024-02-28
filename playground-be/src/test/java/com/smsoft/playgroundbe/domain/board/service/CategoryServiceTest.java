@@ -4,7 +4,6 @@ import com.smsoft.playgroundbe.domain.board.dto.CategoryDTO;
 import com.smsoft.playgroundbe.domain.board.entity.Category;
 import com.smsoft.playgroundbe.domain.board.repository.CategoryRepository;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.PersistenceUnit;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
