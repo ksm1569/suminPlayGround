@@ -18,17 +18,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import javax.swing.plaf.PanelUI;
-
 import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(CategoryController.class)
@@ -94,7 +92,7 @@ class CategoryControllerTest {
 
     @Test
     @DisplayName("카테고리 조회 API 테스트")
-    public void getCategoriesTest() throws Exception {
+    public void getCategories() throws Exception {
         List<CategoryDTO.Response> categories = Arrays.asList(new CategoryDTO.Response(1L, "기술"), new CategoryDTO.Response(2L, "스포츠"));
 
         given(categoryService.getAllCategories()).willReturn(categories);
@@ -106,5 +104,4 @@ class CategoryControllerTest {
                 .andExpect(jsonPath("$[0].name", is("기술")))
                 .andExpect(jsonPath("$[1].name", is("스포츠")));
     }
-
 }
