@@ -17,7 +17,7 @@ public class BoardController {
 
     @PostMapping
     public ResponseEntity<BoardDTO.Response> createBoard(@RequestBody BoardDTO.Request boardDTO) {
-        return new ResponseEntity<>(boardService.createBoard(boardDTO), HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(boardService.createBoard(boardDTO));
     }
 
     @PutMapping("/{id}")

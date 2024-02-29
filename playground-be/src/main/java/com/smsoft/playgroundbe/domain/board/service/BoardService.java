@@ -53,7 +53,7 @@ public class BoardService {
         boardRepository.delete(findBoard);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<BoardDTO.Response> getAllBoards() {
         return boardRepository.findAll().stream()
                 .map(BoardDTO.Response::of)
