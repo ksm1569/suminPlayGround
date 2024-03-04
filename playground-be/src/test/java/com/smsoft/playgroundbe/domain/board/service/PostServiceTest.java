@@ -17,8 +17,10 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -105,5 +107,63 @@ class PostServiceTest {
         assertEquals(postDTO.getAuthorId(), response.getAuthorId());
         assertEquals(postDTO.getTitle(), response.getTitle());
         assertEquals(postDTO.getContent(), response.getContent());
+    }
+
+    @Test
+    @DisplayName("게시글 수정 - post 찾기 실패 테스트")
+    public void postUpdatePostNotFound() {
+        // Given
+        Long postId = 1L;
+        PostDTO.Request postDTO = new PostDTO.Request();
+
+        given(postRepository.findById(postId)).willReturn(Optional.empty());
+
+        // When & Then
+        Exception exception = assertThrows(EntityNotFoundException.class, () -> {
+            postService.updatePost(postId, postDTO);
+        });
+        assertEquals("Post Not Found with id : " + postId, exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("게시글 수정 - board 찾기 실패 테스트")
+    public void postUpdateBoardNotFound() {
+        // Given
+        Long postId = 1L;
+        Long boardId = 1L;
+        PostDTO.Request postDTO = new PostDTO.Request();
+        postDTO.setBoardId(boardId);
+        Post existingPost = new Post(1L, "작성자", "제목", "내용", new Board(), new ArrayList<>());
+
+        given(postRepository.findById(postId)).willReturn(Optional.of(existingPost));
+        given(boardRepository.findById(boardId)).willReturn(Optional.empty());
+
+        // When & Then
+        Exception exception = assertThrows(EntityNotFoundException.class, () -> {
+            postService.updatePost(postId, postDTO);
+        });
+
+        assertEquals("Board Not Found with id : " + boardId, exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("모든 게시글 조회 - 성공 테스트")
+    public void postAllPostSuccess() {
+        // Given
+        List<Post> posts = new ArrayList<>();
+        posts.add(new Post(1L, "작성자1", "제목1", "내용1", new Board(), new ArrayList<>()));
+        posts.add(new Post(2L, "작성자2", "제목2", "내용2", new Board(), new ArrayList<>()));
+        posts.add(new Post(3L, "작성자3", "제목3", "내용3", new Board(), new ArrayList<>()));
+
+        given(postRepository.findAll()).willReturn(posts);
+
+        // When
+        List<PostDTO.Response> responses = postService.getAllPosts();
+
+        // Then
+        assertEquals(3, responses.size());
+        assertEquals("제목1", responses.get(0).getTitle());
+        assertEquals("내용2", responses.get(1).getContent());
+        assertEquals("작성자3", responses.get(2).getAuthorId());
     }
 }
