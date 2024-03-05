@@ -26,9 +26,7 @@ public class CategoryController {
             @PathVariable Long id,
             @RequestBody CategoryDTO.Request categoryDTO
     ) {
-        CategoryDTO.Response updatedCategory = categoryService.updateCategory(id, categoryDTO);
-
-        return ResponseEntity.ok(updatedCategory);
+        return ResponseEntity.status(HttpStatus.OK).body(categoryService.updateCategory(id, categoryDTO));
     }
 
     @DeleteMapping("/{id}")
@@ -40,8 +38,6 @@ public class CategoryController {
 
     @GetMapping
     public ResponseEntity<List<CategoryDTO.Response>> getAllCategories() {
-        List<CategoryDTO.Response> allCategories = categoryService.getAllCategories();
-
-        return ResponseEntity.ok(allCategories);
+        return ResponseEntity.status(HttpStatus.OK).body(categoryService.getAllCategories());
     }
 }
