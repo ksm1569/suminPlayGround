@@ -21,9 +21,12 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.withMarginOf;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
@@ -144,6 +147,44 @@ class PostServiceTest {
         });
 
         assertEquals("Board Not Found with id : " + boardId, exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("게시글 삭제 - 성공 테스트")
+    public void deletePostSuccess() {
+        // Given
+        Long postId = 1L;
+        Board board = Board.builder().build();
+        Post post = Post.builder()
+                .id(postId)
+                .authorId("작성자")
+                .title("제목")
+                .content("내용")
+                .board(board)
+                .build();
+
+        given(postRepository.findById(postId)).willReturn(Optional.of(post));
+
+        // When
+        postService.deletePost(postId);
+
+        // Then
+        verify(postRepository, times(1)).delete(post);
+    }
+
+    @Test
+    @DisplayName("게시글 삭제 - 실패 테스트")
+    public void deletePostNotFound() {
+        // Given
+        Long postId = 1L;
+        given(postRepository.findById(postId)).willReturn(Optional.empty());
+
+        // When & Then
+        Exception exception = assertThrows(EntityNotFoundException.class, () -> {
+            postService.deletePost(postId);
+        });
+
+        assertEquals("Post not found with id : " + postId, exception.getMessage());
     }
 
     @Test
