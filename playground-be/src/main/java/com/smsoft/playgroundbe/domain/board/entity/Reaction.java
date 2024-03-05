@@ -17,9 +17,11 @@ public class Reaction {
 
     private String userId;
 
+    @Setter
     @ManyToOne
     private Post post;
 
+    @Setter
     @ManyToOne
     private Comment comment;
 
