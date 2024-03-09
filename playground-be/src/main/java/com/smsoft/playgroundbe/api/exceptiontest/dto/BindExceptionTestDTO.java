@@ -12,5 +12,5 @@ public class BindExceptionTestDTO {
     private String value1;
 
     @Max(value = 10, message = "최대 입력값은 10자리 입니다.")
-    private String value2;
+    private Integer value2;
 }

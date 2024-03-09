@@ -12,12 +12,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/exception")
 public class ExceptionTestController {
 
-    // 파라미터 벨리데이션 바인딩 에러 테스트
+    // 파라미터 벨리데이션 바인딩 에러 테스트 (GET)
     @GetMapping("/bind-exception-test")
     public String bindExceptionTest(@Valid BindExceptionTestDTO bindExceptionTestDto){
         return "OK";
     }
 
+    // 파라미터 벨리데이션 바인딩 에러 테스트 (POST)
     @PostMapping("/bind-exception-test")
     public String postBindExceptionTest(@Validated @RequestBody BindExceptionTestDTO bindExceptionTestDto){
         return "OK";
