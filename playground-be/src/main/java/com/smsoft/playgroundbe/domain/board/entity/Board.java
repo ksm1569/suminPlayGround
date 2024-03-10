@@ -1,5 +1,6 @@
 package com.smsoft.playgroundbe.domain.board.entity;
 
+import com.smsoft.playgroundbe.domain.board.common.BaseEntity;
 import com.smsoft.playgroundbe.domain.board.dto.BoardDTO;
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Board {
+public class Board extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
