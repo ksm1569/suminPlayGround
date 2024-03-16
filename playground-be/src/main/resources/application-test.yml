@@ -36,3 +36,8 @@ feign:
       default:
         connectTimeout: 5000
         readTimeout: 5000
+
+kakao:
+  client:
+    id: ENC(U1EtXSpNel+7Kd8OERWvGGLeFhmI2uvtzha/3ZUaPwBUVxxytt4JfPO1fHxLlCgl)
+    secret: ENC(S2Ss9axwa0AXkFWJK0T6J0sfR+c5+sRMD9GQ4s7a6NBOgLNEEOpIloY+RU8fZSyc)
